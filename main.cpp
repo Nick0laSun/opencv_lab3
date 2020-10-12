@@ -62,37 +62,43 @@ int main()
 //        createTrackbar( TrackbarName, "Tracbar test", &alpha_slider, alpha_slider_max, on_trackbar);
 //        on_trackbar( alpha_slider, 0 );
 
-        int rows = frame.rows;
-        int cols = frame.cols;
+        float rows = frame.rows;
+        float cols = frame.cols;
 
-        double p1_x = cols/100*SliderValue3;
-        double p14_y = rows/100*SliderValue4;
-        double p4_x = cols/100*(100 - SliderValue3);
+        float p1_x = cols/100.0*SliderValue3;
+        float p14_y = rows/100.0*SliderValue4;
+        float p4_x = cols/100.0*(100.0 - SliderValue3);
 
-        double p2_x = cols/100*SliderValue1;
-        double p23_y = rows/100*SliderValue2;
-        double p3_x = cols/100*(100 - SliderValue1);
+        float p2_x = cols/100.0*SliderValue1;
+        float p23_y = rows/100.0*SliderValue2;
+        float p3_x = cols/100.0*(100.0 - SliderValue1);
 
-        vector<Point> points;
-        points.push_back(Point(p1_x, p14_y));
-        points.push_back(Point(p2_x, p23_y));
-        points.push_back(Point(p3_x, p23_y));
-        points.push_back(Point(p4_x, p14_y));
+        vector<Point> polyline;
+        polyline.push_back(Point(p1_x, p14_y));
+        polyline.push_back(Point(p2_x, p23_y));
+        polyline.push_back(Point(p3_x, p23_y));
+        polyline.push_back(Point(p4_x, p14_y));
 
-        vector<Point> dst_points;
-        dst_points.push_back(Point(0, 0));
-        dst_points.push_back(Point(0, 480));
-        dst_points.push_back(Point(640, 480));
-        dst_points.push_back(Point(640, 0));
+        vector<Point2f> points;
+        points.push_back(Point2f(p1_x, p14_y));
+        points.push_back(Point2f(p2_x, p23_y));
+        points.push_back(Point2f(p3_x, p23_y));
+        points.push_back(Point2f(p4_x, p14_y));
 
+        vector<Point2f> dst_points;
+        dst_points.push_back(Point2f(640.0, 480.0));
+        dst_points.push_back(Point2f(640.0, 0.0));
+        dst_points.push_back(Point2f(0.0, 0.0));
+        dst_points.push_back(Point2f(0.0, 480.0));
 
-        polylines(frame, points, 1, Scalar(255, 0, 0), 4);
+        Mat farame2poly = frame.clone();
+        polylines(farame2poly, polyline, 1, Scalar(255, 0, 0), 4);
 
-        Mat M = getPerspectiveTransform(points, dst_points);
+        Mat Matrix = getPerspectiveTransform(points, dst_points);
         Mat dst;
-        warpPerspective(frame, dst, M, dst.size(), INTER_LINEAR, BORDER_CONSTANT);
+        warpPerspective(frame, dst, Matrix, dst.size(), INTER_LINEAR, BORDER_CONSTANT);
 
-        imshow("Frame", frame);
+        imshow("Frame", farame2poly);
         imshow("Bird", dst);
 //        imshow("Blur frame", blur_frame);
 //        imshow("Red frame", red_frame);

@@ -33,10 +33,6 @@ int main()
 
     while(1) {
 
-        Mat blur_frame;
-        Mat red_frame;
-        Mat gray_frame;
-
         cap >> frame;
 
         if(frame.empty()) {
@@ -44,34 +40,8 @@ int main()
             break;
         }
 
-//        namedWindow("Tracbar test", WINDOW_AUTOSIZE);
-
-//        alpha_slider = 0;
-
-
-
-//        blur(frame, blur_frame, Size(ksize, ksize), Point(-1,-1));
-//        cvtColor(frame, red_frame, COLOR_BGR2HSV);
-//        inRange(red_frame, Scalar(170, 70, 50), Scalar(180, 255, 255), red_frame);
-//        cvtColor(frame, gray_frame, COLOR_BGR2GRAY);
-//        bord_frame = gray_frame.clone();
-//        Canny(gray_frame, bord_frame, 10, 100, 3);
-
-//        char TrackbarName[50];
-//        sprintf( TrackbarName, "Alpha x %d", alpha_slider_max );
-//        createTrackbar( TrackbarName, "Tracbar test", &alpha_slider, alpha_slider_max, on_trackbar);
-//        on_trackbar( alpha_slider, 0 );
-
         float rows = frame.rows;
         float cols = frame.cols;
-
-//        float p1_x = cols/100.0*WidthLowPlane;
-//        float p14_y = rows/100.0*HeigthLowPlane;
-//        float p4_x = cols/100.0*(100.0 - WidthLowPlane);
-
-//        float p2_x = cols/100.0*WidthUpPlane;
-//        float p23_y = rows/100.0*HeigthUpPlane;
-//        float p3_x = cols/100.0*(100.0 - WidthUpPlane);
 
         float p4_x = cols/100.0*WidthLowPlane;
         float p43_y = rows/100.0*HeigthLowPlane;
@@ -111,9 +81,6 @@ int main()
 
         imshow("Frame", farame2poly);
         imshow("Bird", dst);
-//        imshow("Blur frame", blur_frame);
-//        imshow("Red frame", red_frame);
-//        imshow("Canny frame", bord_frame);
 
         char c=(char)waitKey(25);
         if(c==27)

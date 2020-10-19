@@ -3,6 +3,7 @@
 #include <opencv2/imgproc.hpp>
 
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 using namespace cv;
@@ -71,15 +72,19 @@ int main()
 
         double fps = cap.get(CAP_PROP_FPS);
         int time_mls = cap.get(CAP_PROP_POS_MSEC);
-        cout << "FPS: " << fps << " Time(mls): " << time_mls << endl;
-        Mat farame2poly = frame.clone();
-        polylines(farame2poly, polyline, 1, Scalar(255, 0, 0), 4);
+//        cout << "FPS: " << fps << " Time(mls): " << time_mls << endl;
+        Mat frame2poly = frame.clone();
+        string fps_str = to_string(fps);
+        string time_str = to_string(time_mls);
+        string info = "FPS: " + fps_str + " Time(mls): " + time_str;
+        putText(frame2poly, info, Point(5, 100), 1, 2.0, Scalar(255, 255, 255));
+        polylines(frame2poly, polyline, 1, Scalar(255, 0, 0), 4);
 
         Mat Matrix = getPerspectiveTransform(points, dst_points);
         Mat dst;
         warpPerspective(frame, dst, Matrix, dst.size(), INTER_LINEAR, BORDER_CONSTANT);
 
-        imshow("Frame", farame2poly);
+        imshow("Frame", frame2poly);
         imshow("Bird", dst);
 
         char c=(char)waitKey(25);
